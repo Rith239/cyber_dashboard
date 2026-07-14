@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+
+<h2 class="mb-4">Welcome, {{ user.username }}</h2>
+
+<div class="row g-3">
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Vulnerability Scanner</h5>
+                <p class="card-text text-muted">Run Nmap-based scans against a target IP or domain.</p>
+                <span class="badge bg-secondary">Coming in Module 11</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Phishing Detector</h5>
+                <p class="card-text text-muted">Check URLs or email content for phishing indicators using AI.</p>
+                <span class="badge bg-secondary">Coming in Module 12</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Malware Scanner</h5>
+                <p class="card-text text-muted">Scan files for malware using the VirusTotal API.</p>
+                <span class="badge bg-secondary">Coming in Module 13</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <h5>Recent Scans</h5>
+    <p class="text-muted">No scans yet. Scan history will appear here starting Module 14.</p>
+</div>
+
+{% endblock %}

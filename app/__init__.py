@@ -16,7 +16,7 @@ from config import Config
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
-login_manager.login_view = 'auth.login'  # redirects here if @login_required blocks access
+login_manager.login_view = 'auth.login'
 
 
 def create_app():
@@ -34,12 +34,11 @@ def create_app():
     with app.app_context():
         from app import models
 
-    # Register the auth blueprint (login, register, logout routes)
+    # Register blueprints
     from app.auth import auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
 
-    @app.route("/")
-    def index():
-        return "<h1>Cyber Security Dashboard</h1><p>Flask app is running successfully.</p>"
+    from app.dashboard import dashboard_bp
+    app.register_blueprint(dashboard_bp, url_prefix='/')
 
     return app

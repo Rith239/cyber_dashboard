@@ -58,7 +58,7 @@ def login():
         if user and bcrypt.check_password_hash(user.password_hash, form.password.data):
             login_user(user)
             flash(f'Welcome back, {user.username}!', 'success')
-            return redirect(url_for('index'))
+            return redirect(url_for('dashboard.home'))
         else:
             flash('Invalid username or password.', 'danger')
 
