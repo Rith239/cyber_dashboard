@@ -16,6 +16,7 @@ from config import Config
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
+login_manager.login_view = 'auth.login'  # redirects here if @login_required blocks access
 
 
 def create_app():
@@ -32,6 +33,10 @@ def create_app():
 
     with app.app_context():
         from app import models
+
+    # Register the auth blueprint (login, register, logout routes)
+    from app.auth import auth_bp
+    app.register_blueprint(auth_bp, url_prefix='/auth')
 
     @app.route("/")
     def index():
