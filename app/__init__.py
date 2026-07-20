@@ -44,4 +44,7 @@ def create_app():
     from app.scanner import scanner_bp
     app.register_blueprint(scanner_bp, url_prefix='/')
 
+    from app.phishing import phishing_bp
+    app.register_blueprint(phishing_bp, url_prefix='/')
+
     return app
