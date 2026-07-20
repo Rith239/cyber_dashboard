@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Vulnerability Scanner{% endblock %}
+{% block content %}
+
+<h2 class="mb-3">Vulnerability Scanner</h2>
+
+<div class="alert alert-warning">
+    <strong>Ethical use notice:</strong> Only scan systems you own or are explicitly authorized to test.
+    For this demo, allowed targets are: <code>{{ allowed_targets | join(", ") }}</code>.
+</div>
+
+<form method="POST" class="mb-4">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        {{ form.target.label(class="form-label") }}
+        {{ form.target(class="form-control") }}
+        {% for error in form.target.errors %}
+            <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+
+{% if scan_results %}
+<h5>Scan Results</h5>
+<pre class="bg-dark text-light p-3 rounded">{{ scan_results }}</pre>
+{% endif %}
+
+{% endblock %}

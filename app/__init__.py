@@ -41,4 +41,7 @@ def create_app():
     from app.dashboard import dashboard_bp
     app.register_blueprint(dashboard_bp, url_prefix='/')
 
+    from app.scanner import scanner_bp
+    app.register_blueprint(scanner_bp, url_prefix='/')
+
     return app
