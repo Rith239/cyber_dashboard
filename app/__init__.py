@@ -42,4 +42,7 @@ def create_app():
     from app.malware import malware_bp
     app.register_blueprint(malware_bp, url_prefix='/')
 
+    from app.reports import reports_bp
+    app.register_blueprint(reports_bp, url_prefix='/')
+
     return app
