@@ -2,9 +2,6 @@
 app/__init__.py
 
 The Application Factory.
-This file creates and configures the Flask app, initializes
-extensions (database, login manager, password hashing), and
-registers all feature blueprints.
 """
 
 from flask import Flask
@@ -20,10 +17,6 @@ login_manager.login_view = 'auth.login'
 
 
 def create_app():
-    """
-    Application factory function.
-    Creates a configured Flask app instance.
-    """
     app = Flask(__name__)
     app.config.from_object(Config)
 
@@ -34,7 +27,6 @@ def create_app():
     with app.app_context():
         from app import models
 
-    # Register blueprints
     from app.auth import auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
 
@@ -46,5 +38,8 @@ def create_app():
 
     from app.phishing import phishing_bp
     app.register_blueprint(phishing_bp, url_prefix='/')
+
+    from app.malware import malware_bp
+    app.register_blueprint(malware_bp, url_prefix='/')
 
     return app

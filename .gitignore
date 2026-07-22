@@ -6,3 +6,4 @@ instance/
 *.db
 .vscode/
 data/*.csv
+uploads/
