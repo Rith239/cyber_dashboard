@@ -12,10 +12,8 @@ from app import db
 from app.scanner import scanner_bp
 from app.scanner.forms import ScanForm
 from app.models import Scan
+from app.alerts.rules import check_and_create_alert
 
-# Only these targets are allowed to be scanned, for legal/ethical safety.
-# localhost is your own machine; scanme.nmap.org is a target Nmap's creators
-# explicitly set up for public testing.
 ALLOWED_TARGETS = ['localhost', '127.0.0.1', 'scanme.nmap.org']
 
 
@@ -41,10 +39,8 @@ def scan():
         else:
             try:
                 scanner = nmap.PortScanner()
-                # -sV: detect service/version info on open ports
                 scanner.scan(target, arguments='-sV')
 
-                # Build a readable summary of what was found
                 summary_lines = []
                 for host in scanner.all_hosts():
                     summary_lines.append(f"Host: {host} ({scanner[host].hostname()})")
@@ -63,7 +59,6 @@ def scan():
 
                 scan_results = '\n'.join(summary_lines) if summary_lines else 'No open ports found.'
 
-                # Save this scan to the database, linked to the logged-in user
                 new_scan = Scan(
                     user_id=current_user.id,
                     scan_type='vulnerability',
@@ -72,6 +67,8 @@ def scan():
                 )
                 db.session.add(new_scan)
                 db.session.commit()
+
+                check_and_create_alert(new_scan, current_user.id)
 
                 flash('Scan completed and saved successfully.', 'success')
 

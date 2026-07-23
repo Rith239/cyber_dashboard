@@ -8,6 +8,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+from flask_login import current_user
 from config import Config
 
 db = SQLAlchemy()
@@ -44,5 +45,21 @@ def create_app():
 
     from app.reports import reports_bp
     app.register_blueprint(reports_bp, url_prefix='/')
+
+    from app.alerts import alerts_bp
+    app.register_blueprint(alerts_bp, url_prefix='/')
+
+    @app.context_processor
+    def inject_unread_alert_count():
+        """
+        Makes 'unread_alert_count' automatically available in every
+        template (used by the navbar badge in base.html), without
+        needing to pass it manually from every single route.
+        """
+        if current_user.is_authenticated:
+            from app.models import Alert
+            count = Alert.query.filter_by(user_id=current_user.id, is_read=False).count()
+            return {'unread_alert_count': count}
+        return {'unread_alert_count': 0}
 
     return app
