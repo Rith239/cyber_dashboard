@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+
+<h2 class="mb-4">My Profile</h2>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Account</h5>
+                <p><strong>Username:</strong> {{ current_user.username }}</p>
+                <p><strong>Member since:</strong> {{ current_user.created_at.strftime("%d %b %Y") }}</p>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-body">
+                <h5 class="card-title">Activity Summary</h5>
+                <p><strong>Total scans:</strong> {{ total_scans }}</p>
+                <p><span class="badge bg-primary">Vulnerability</span> {{ vulnerability_count }}</p>
+                <p><span class="badge bg-warning text-dark">Phishing</span> {{ phishing_count }}</p>
+                <p><span class="badge bg-danger">Malware</span> {{ malware_count }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Update Email</h5>
+                <form method="POST">
+                    {{ email_form.hidden_tag() }}
+                    <div class="mb-3">
+                        {{ email_form.email.label(class="form-label") }}
+                        {{ email_form.email(class="form-control") }}
+                        {% for error in email_form.email.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    {{ email_form.submit_email(class="btn btn-primary") }}
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Change Password</h5>
+                <form method="POST">
+                    {{ password_form.hidden_tag() }}
+                    <div class="mb-3">
+                        {{ password_form.current_password.label(class="form-label") }}
+                        {{ password_form.current_password(class="form-control") }}
+                        {% for error in password_form.current_password.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="mb-3">
+                        {{ password_form.new_password.label(class="form-label") }}
+                        {{ password_form.new_password(class="form-control") }}
+                        {% for error in password_form.new_password.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="mb-3">
+                        {{ password_form.confirm_new_password.label(class="form-label") }}
+                        {{ password_form.confirm_new_password(class="form-control") }}
+                        {% for error in password_form.confirm_new_password.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    {{ password_form.submit_password(class="btn btn-primary") }}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

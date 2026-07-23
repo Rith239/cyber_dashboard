@@ -49,13 +49,11 @@ def create_app():
     from app.alerts import alerts_bp
     app.register_blueprint(alerts_bp, url_prefix='/')
 
+    from app.profile import profile_bp
+    app.register_blueprint(profile_bp, url_prefix='/')
+
     @app.context_processor
     def inject_unread_alert_count():
-        """
-        Makes 'unread_alert_count' automatically available in every
-        template (used by the navbar badge in base.html), without
-        needing to pass it manually from every single route.
-        """
         if current_user.is_authenticated:
             from app.models import Alert
             count = Alert.query.filter_by(user_id=current_user.id, is_read=False).count()
