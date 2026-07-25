@@ -4,7 +4,7 @@ app/__init__.py
 The Application Factory.
 """
 
-from flask import Flask
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
@@ -62,5 +62,13 @@ def create_app():
             count = Alert.query.filter_by(user_id=current_user.id, is_read=False).count()
             return {'unread_alert_count': count}
         return {'unread_alert_count': 0}
+
+    @app.errorhandler(403)
+    def forbidden(e):
+        return render_template('errors/403.html'), 403
+
+    @app.errorhandler(404)
+    def not_found(e):
+        return render_template('errors/404.html'), 404
 
     return app
