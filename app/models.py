@@ -18,9 +18,9 @@ def load_user(user_id):
 class User(db.Model, UserMixin):
     """
     Represents a registered user of the dashboard.
-    'role' distinguishes regular users from admins -- defaults to
-    'user' for everyone at registration; only manually promoted
-    accounts (via the admin panel) become 'admin'.
+    is_verified / otp_code / otp_generated_at support email OTP
+    verification at registration -- a user cannot log in until
+    is_verified is True.
     """
     __tablename__ = 'users'
 
@@ -29,6 +29,9 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
     role = db.Column(db.String(20), nullable=False, default='user')
+    is_verified = db.Column(db.Boolean, nullable=False, default=False)
+    otp_code = db.Column(db.String(6), nullable=True)
+    otp_generated_at = db.Column(db.DateTime, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     scans = db.relationship('Scan', backref='user', lazy=True)

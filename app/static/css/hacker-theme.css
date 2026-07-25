@@ -1,0 +1,185 @@
+:root {
+    --bg-primary: #0a0e0a;
+    --bg-secondary: #0d1117;
+    --bg-card: #0f1a12;
+    --neon-green: #00ff41;
+    --neon-cyan: #39ffe4;
+    --neon-red: #ff2b4e;
+    --neon-yellow: #f7ff4d;
+    --text-primary: #c9d1c9;
+    --text-dim: #6b7d6b;
+    --border-glow: 0 0 8px rgba(0, 255, 65, 0.35);
+    --border-glow-strong: 0 0 16px rgba(0, 255, 65, 0.55);
+}
+
+body {
+    background-color: var(--bg-primary);
+    background-image:
+        linear-gradient(rgba(0, 255, 65, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 65, 0.05) 1px, transparent 1px);
+    background-size: 32px 32px;
+    color: var(--text-primary);
+    font-family: 'Share Tech Mono', 'Courier New', monospace;
+    min-height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #050705 !important;
+    border-bottom: 1px solid rgba(0, 255, 65, 0.4);
+    box-shadow: var(--border-glow);
+}
+
+.navbar-brand {
+    color: var(--neon-green) !important;
+    font-weight: bold;
+    text-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
+}
+
+.navbar-brand::before {
+    content: "> ";
+}
+
+.navbar-brand::after {
+    content: "_";
+    animation: blink 1.1s steps(1) infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+.navbar .btn-outline-light {
+    color: var(--neon-green);
+    border-color: rgba(0, 255, 65, 0.5);
+}
+.navbar .btn-outline-light:hover {
+    background-color: var(--neon-green);
+    color: #000;
+    box-shadow: var(--border-glow-strong);
+}
+
+.navbar .btn-outline-warning {
+    color: var(--neon-yellow);
+    border-color: var(--neon-yellow);
+}
+.navbar .btn-outline-warning:hover {
+    background-color: var(--neon-yellow);
+    color: #000;
+}
+
+.navbar-text { color: var(--text-dim) !important; }
+
+/* Cards */
+.card {
+    background-color: var(--bg-card) !important;
+    border: 1px solid rgba(0, 255, 65, 0.25) !important;
+    color: var(--text-primary);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.card:hover {
+    border-color: rgba(0, 255, 65, 0.6) !important;
+    box-shadow: var(--border-glow);
+}
+.card-title { color: var(--neon-green); }
+
+/* Buttons */
+.btn-primary {
+    background-color: transparent;
+    border: 1px solid var(--neon-green);
+    color: var(--neon-green);
+}
+.btn-primary:hover {
+    background-color: var(--neon-green);
+    color: #000;
+    box-shadow: var(--border-glow-strong);
+}
+
+.btn-outline-primary {
+    color: var(--neon-cyan);
+    border-color: var(--neon-cyan);
+}
+.btn-outline-primary:hover {
+    background-color: var(--neon-cyan);
+    color: #000;
+}
+
+.btn-outline-secondary {
+    color: var(--text-dim);
+    border-color: var(--text-dim);
+}
+
+/* Tables */
+.table {
+    color: var(--text-primary);
+    border-color: rgba(0, 255, 65, 0.15);
+}
+.table thead th {
+    color: var(--neon-green);
+    border-bottom: 1px solid rgba(0, 255, 65, 0.4) !important;
+}
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+    background-color: rgba(0, 255, 65, 0.04);
+    color: var(--text-primary);
+}
+.table-hover > tbody > tr:hover > * {
+    background-color: rgba(0, 255, 65, 0.1);
+    color: var(--text-primary);
+}
+
+/* Terminal-style result blocks (pre, code) */
+pre, pre.bg-dark {
+    background-color: #000 !important;
+    color: var(--neon-green) !important;
+    border: 1px solid rgba(0, 255, 65, 0.3);
+    box-shadow: inset 0 0 20px rgba(0, 255, 65, 0.08);
+    font-family: 'Share Tech Mono', monospace;
+}
+code {
+    color: var(--neon-cyan);
+    background-color: rgba(0, 255, 255, 0.08);
+}
+
+/* Alerts (flash messages) -- dark background, colored left border instead
+   of a full solid fill, for a more understated terminal-log feel */
+.alert {
+    background-color: var(--bg-card);
+    border: 1px solid;
+    border-left-width: 4px;
+    color: var(--text-primary);
+}
+.alert-success { border-color: var(--neon-green); }
+.alert-danger  { border-color: var(--neon-red); }
+.alert-warning { border-color: var(--neon-yellow); }
+.alert-info    { border-color: var(--neon-cyan); }
+.alert .btn-close { filter: invert(1); }
+
+/* Badges -- add a subtle glow matching their color */
+.badge.bg-primary { background-color: #0a3d1f !important; color: var(--neon-green) !important; border: 1px solid var(--neon-green); }
+.badge.bg-danger  { background-color: #3d0a14 !important; color: var(--neon-red) !important; border: 1px solid var(--neon-red); }
+.badge.bg-warning { background-color: #3d3a0a !important; color: var(--neon-yellow) !important; border: 1px solid var(--neon-yellow); }
+.badge.bg-dark    { background-color: #111 !important; color: var(--neon-cyan) !important; border: 1px solid var(--neon-cyan); }
+.badge.bg-secondary { background-color: #1a1a1a !important; color: var(--text-dim) !important; border: 1px solid var(--text-dim); }
+
+/* Form inputs */
+.form-control {
+    background-color: #000 !important;
+    color: var(--neon-green) !important;
+    border: 1px solid rgba(0, 255, 65, 0.4);
+}
+.form-control:focus {
+    background-color: #000 !important;
+    color: var(--neon-green) !important;
+    border-color: var(--neon-green);
+    box-shadow: var(--border-glow);
+}
+.form-label { color: var(--text-dim); }
+
+/* Links */
+a { color: var(--neon-cyan); }
+a:hover { color: var(--neon-green); }
+
+/* Headings */
+h1, h2, h3, h4, h5 { color: var(--neon-green); text-shadow: 0 0 6px rgba(0, 255, 65, 0.25); }
+
+::selection { background: var(--neon-green); color: #000; }

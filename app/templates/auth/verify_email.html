@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Verify Email{% endblock %}
+{% block content %}
+<h2>Verify Your Email</h2>
+<p class="text-muted">We sent a 6-digit code to <strong>{{ email }}</strong>. Enter it below to activate your account.</p>
+<p class="text-warning small">Don't see it? Check your Spam/Junk folder — first-time emails from a new sender sometimes land there.</p>
+
+<form method="POST" class="mb-3">
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.otp_code.label }}<br>
+        {{ form.otp_code(size=10, maxlength=6, class="form-control", style="max-width: 200px; letter-spacing: 4px; font-size: 1.3rem;") }}
+        {% for error in form.otp_code.errors %}<span class="text-danger d-block">{{ error }}</span>{% endfor %}
+    </p>
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+
+<form method="POST" action="{{ url_for('auth.resend_otp') }}">
+    <button type="submit" class="btn btn-sm btn-outline-secondary">Resend Code</button>
+</form>
+{% endblock %}
