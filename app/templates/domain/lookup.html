@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Domain Finder{% endblock %}
+{% block content %}
+
+<h2 class="mb-3">Domain Details Finder</h2>
+<p class="text-muted">Look up WHOIS registration details for any domain -- registrar, creation/expiry dates, status flags, and nameservers.</p>
+
+<form method="POST" class="mb-4">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        {{ form.domain.label(class="form-label") }}
+        {{ form.domain(class="form-control", placeholder="example.com") }}
+        {% for error in form.domain.errors %}
+            <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+
+{% if result %}
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{ result.domain }}</h5>
+
+        {% if result.is_newly_registered %}
+            <div class="alert alert-warning">
+                This domain was registered less than 90 days ago -- a common indicator
+                used alongside other signals (like the Phishing Detector) to assess trust.
+            </div>
+        {% endif %}
+        {% if result.expiring_soon %}
+            <div class="alert alert-warning">
+                This domain expires in {{ result.days_until_expiry }} day(s) -- domains that
+                lapse can be re-registered by someone else, including for malicious reuse.
+            </div>
+        {% endif %}
+
+        <p><strong>Registrar:</strong> {{ result.registrar }}</p>
+        <p><strong>Created:</strong> {{ result.creation_date }}</p>
+        <p><strong>Expires:</strong> {{ result.expiration_date }}
+            {% if result.days_until_expiry is not none %}
+                <span class="text-muted small">({{ result.days_until_expiry }} days remaining)</span>
+            {% endif %}
+        </p>
+
+        {% if result.statuses %}
+        <p><strong>Status:</strong></p>
+        <ul>
+            {% for status in result.statuses %}
+            <li><code>{{ status }}</code></li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% if result.nameservers %}
+        <p><strong>Nameservers:</strong></p>
+        <ul>
+            {% for ns in result.nameservers %}
+            <li>{{ ns }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#rawWhois">
+            Show Raw WHOIS Data
+        </button>
+        <div class="collapse mt-2" id="rawWhois">
+            <pre class="bg-dark text-light p-3 rounded small">{{ result.raw_text }}</pre>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
