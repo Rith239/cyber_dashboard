@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}SSL Certificate Checker{% endblock %}
+{% block content %}
+
+<h2 class="mb-3">SSL/TLS Certificate Checker</h2>
+<p class="text-muted">Connects directly to a domain over HTTPS and inspects its SSL/TLS certificate -- issuer, validity dates, and days remaining until expiry.</p>
+
+<form method="POST" class="mb-4">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        {{ form.domain.label(class="form-label") }}
+        {{ form.domain(class="form-control", placeholder="example.com") }}
+        {% for error in form.domain.errors %}
+            <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+
+{% if result %}
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{ result.domain }}</h5>
+
+        {% if result.expired %}
+            <div class="alert alert-danger">This certificate has EXPIRED.</div>
+        {% elif result.expiring_soon %}
+            <div class="alert alert-warning">This certificate expires in {{ result.days_remaining }} day(s).</div>
+        {% else %}
+            <div class="alert alert-success">Certificate is valid.</div>
+        {% endif %}
+
+        <p><strong>Issued to:</strong> {{ result.subject }}</p>
+        <p><strong>Issuer:</strong> {{ result.issuer }}</p>
+        <p><strong>Valid from:</strong> {{ result.valid_from }}</p>
+        <p><strong>Valid until:</strong> {{ result.valid_until }}
+            <span class="text-muted small">({{ result.days_remaining }} days remaining)</span>
+        </p>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

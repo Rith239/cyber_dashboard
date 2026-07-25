@@ -54,6 +54,16 @@
             </div>
         </div>
     </div>
+
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">SSL/TLS Certificate Checker</h5>
+                <p class="card-text text-muted">Inspect a domain's SSL certificate -- issuer, validity, expiry.</p>
+                <a href="{{ url_for('sslcheck.check') }}" class="btn btn-sm btn-primary">Open Checker</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="mt-4 d-flex justify-content-between align-items-center">
@@ -86,6 +96,8 @@
                         <span class="badge bg-info text-dark">Domain</span>
                     {% elif scan.scan_type == 'breach_check' %}
                         <span class="badge bg-secondary">Breach Check</span>
+                    {% elif scan.scan_type == 'ssl_check' %}
+                        <span class="badge bg-dark">SSL Check</span>
                     {% endif %}
                 </td>
                 <td class="text-break">{{ scan.target }}</td>
