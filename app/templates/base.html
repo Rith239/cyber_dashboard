@@ -14,6 +14,9 @@
             </a>
             <div class="d-flex align-items-center">
                 {% if current_user.is_authenticated %}
+                    {% if current_user.role == 'admin' %}
+                        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline-warning btn-sm me-2">Admin</a>
+                    {% endif %}
                     <a href="{{ url_for('alerts.list_alerts') }}" class="btn btn-outline-light btn-sm me-2 position-relative">
                         Alerts
                         {% if unread_alert_count and unread_alert_count > 0 %}

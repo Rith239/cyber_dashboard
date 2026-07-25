@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}{{ target_user.username }}'s Scans{% endblock %}
+{% block content %}
+
+<a href="{{ url_for('admin.dashboard') }}" class="btn btn-sm btn-outline-secondary mb-3">&larr; Back to Admin Panel</a>
+<h2 class="mb-4">Scan History -- {{ target_user.username }}</h2>
+
+{% if scans %}
+<div class="table-responsive">
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Target</th>
+                <th>Result</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for scan in scans %}
+            <tr>
+                <td class="text-nowrap">{{ scan.created_at.strftime('%d %b %Y, %H:%M') }}</td>
+                <td>
+                    {% if scan.scan_type == 'vulnerability' %}
+                        <span class="badge bg-primary">Vulnerability</span>
+                    {% elif scan.scan_type == 'phishing' %}
+                        <span class="badge bg-warning text-dark">Phishing</span>
+                    {% elif scan.scan_type == 'malware' %}
+                        <span class="badge bg-danger">Malware</span>
+                    {% endif %}
+                </td>
+                <td class="text-break">{{ scan.target }}</td>
+                <td class="text-break small text-muted">{{ scan.result[:150] }}{% if scan.result and scan.result|length > 150 %}...{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p class="text-muted">This user hasn't run any scans yet.</p>
+{% endif %}
+
+{% endblock %}

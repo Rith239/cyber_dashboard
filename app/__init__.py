@@ -52,6 +52,9 @@ def create_app():
     from app.profile import profile_bp
     app.register_blueprint(profile_bp, url_prefix='/')
 
+    from app.admin import admin_bp
+    app.register_blueprint(admin_bp, url_prefix='/')
+
     @app.context_processor
     def inject_unread_alert_count():
         if current_user.is_authenticated:

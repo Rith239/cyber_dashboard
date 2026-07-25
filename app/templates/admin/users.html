@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Admin Panel{% endblock %}
+{% block content %}
+
+<h2 class="mb-4">Admin Panel -- All Users</h2>
+
+<div class="table-responsive">
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Joined</th>
+                <th>Total Scans</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in user_data %}
+            <tr>
+                <td>{{ entry.user.username }}</td>
+                <td>{{ entry.user.email }}</td>
+                <td>
+                    {% if entry.user.role == 'admin' %}
+                        <span class="badge bg-dark">Admin</span>
+                    {% else %}
+                        <span class="badge bg-secondary">User</span>
+                    {% endif %}
+                </td>
+                <td>{{ entry.user.created_at.strftime("%d %b %Y") }}</td>
+                <td>{{ entry.scan_count }}</td>
+                <td>
+                    <a href="{{ url_for('admin.user_scans', user_id=entry.user.id) }}" class="btn btn-sm btn-outline-primary">
+                        View Scans
+                    </a>
+                    {% if entry.user.id != current_user.id %}
+                    <form method="POST" action="{{ url_for('admin.toggle_role', user_id=entry.user.id) }}" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-outline-secondary">
+                            {% if entry.user.role == 'admin' %}Demote{% else %}Promote{% endif %}
+                        </button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
