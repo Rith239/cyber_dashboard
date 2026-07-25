@@ -64,6 +64,9 @@ def create_app():
     from app.sslcheck import sslcheck_bp
     app.register_blueprint(sslcheck_bp, url_prefix='/')
 
+    from app.iplookup import iplookup_bp
+    app.register_blueprint(iplookup_bp, url_prefix='/')
+
     @app.context_processor
     def inject_unread_alert_count():
         if current_user.is_authenticated:
