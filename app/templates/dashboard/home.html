@@ -44,6 +44,16 @@
             </div>
         </div>
     </div>
+
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Password Breach Checker</h5>
+                <p class="card-text text-muted">Check if a password has appeared in known data breaches.</p>
+                <a href="{{ url_for('breach.check') }}" class="btn btn-sm btn-primary">Open Checker</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="mt-4 d-flex justify-content-between align-items-center">
@@ -74,6 +84,8 @@
                         <span class="badge bg-danger">Malware</span>
                     {% elif scan.scan_type == 'domain' %}
                         <span class="badge bg-info text-dark">Domain</span>
+                    {% elif scan.scan_type == 'breach_check' %}
+                        <span class="badge bg-secondary">Breach Check</span>
                     {% endif %}
                 </td>
                 <td class="text-break">{{ scan.target }}</td>

@@ -58,6 +58,9 @@ def create_app():
     from app.domain import domain_bp
     app.register_blueprint(domain_bp, url_prefix='/')
 
+    from app.breach import breach_bp
+    app.register_blueprint(breach_bp, url_prefix='/')
+
     @app.context_processor
     def inject_unread_alert_count():
         if current_user.is_authenticated:

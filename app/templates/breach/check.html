@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Password Breach Checker{% endblock %}
+{% block content %}
+
+<h2 class="mb-3">Password Breach Checker</h2>
+<p class="text-muted">
+    Checks a password against the Have I Been Pwned database of known breached passwords,
+    using k-anonymity -- only a 5-character hash prefix is ever sent over the network.
+    Your full password and full hash never leave this server, and are never stored.
+</p>
+<div class="alert alert-info">
+    <strong>Tip:</strong> Check a password you're considering using, not necessarily your
+    actual current login password, for extra peace of mind.
+</div>
+
+<form method="POST" class="mb-4">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        {{ form.password.label(class="form-label") }}
+        {{ form.password(class="form-control") }}
+        {% for error in form.password.errors %}
+            <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+
+{% if result %}
+<div class="card">
+    <div class="card-body">
+        {% if result.is_breached %}
+            <h5 class="card-title text-danger">Password Found in Breaches</h5>
+            <p>This password has appeared in <strong>{{ "{:,}".format(result.breach_count) }}</strong> known data breach(es).</p>
+            <p class="text-muted small">Avoid using this password anywhere -- attackers actively test breached passwords against other accounts (a technique called credential stuffing).</p>
+        {% else %}
+            <h5 class="card-title text-success">Not Found in Known Breaches</h5>
+            <p>This password wasn't found in the Have I Been Pwned database.</p>
+            <p class="text-muted small">This doesn't guarantee it's strong -- just that it hasn't shown up in a known breach yet.</p>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
