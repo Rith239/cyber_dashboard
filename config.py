@@ -9,18 +9,20 @@ so this file is safe to commit to GitHub.
 import os
 from dotenv import load_dotenv
 
-# Load variables from .env into the environment
 load_dotenv()
 
 
 class Config:
-    """Base configuration class used by the Flask app factory."""
+    """Base configuration -- shared by all environments."""
 
-    # Used by Flask to cryptographically sign session cookies
     SECRET_KEY = os.environ.get('SECRET_KEY')
-
-    # MySQL connection string, loaded from .env
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
-
-    # Disables a SQLAlchemy feature we don't need; avoids console warnings
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    # Whether Flask runs in debug mode -- controlled by FLASK_ENV in .env.
+    # NEVER let this be True in a real deployment: debug mode can leak
+    # stack traces, source code, and expose an interactive code-execution
+    # debugger to anyone who can reach the server.
+    # Defaults to 'production' (debug OFF) if FLASK_ENV is missing entirely --
+    # a secure-by-default fallback.
+    DEBUG = os.environ.get('FLASK_ENV', 'production') == 'development'
