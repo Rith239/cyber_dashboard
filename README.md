@@ -106,10 +106,6 @@ This project was built with deliberate attention to common OWASP-recognized vuln
 - **No secrets in source control:** all API keys and credentials are loaded from environment variables (a git-ignored `.env` locally, Render's environment settings in production).
 - **Ethical scanning boundary:** the Vulnerability Scanner enforces a hard-coded target whitelist in code, not just a UI warning.
 
-## Screenshots
-
-> _Add screenshots of the dashboard, each tool in action, and the admin panel here before submission._
-
 ## Setup & Installation (Local Development)
 
 ### Prerequisites
